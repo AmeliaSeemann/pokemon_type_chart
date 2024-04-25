@@ -9,7 +9,16 @@ def search(request):
     else:
         at = request.GET['attack']
         de = request.GET['defense']
-        return redirect('/result/?attack={}&defense={}'.format(at,de))
+        try:
+            pokemon = TypeChart.objects.get(name=at)
+            pokemon2 = TypeChart.objects.get(name=de)
+        except Exception:
+            return redirect('/')
+        else:
+            return redirect('/result/?attack={}&defense={}'.format(at,de))
+
+
+
 def result(request):
     if request.method == 'POST':
         return redirect('/search/')
